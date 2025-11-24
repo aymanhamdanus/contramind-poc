@@ -84,11 +84,11 @@ export default function Chat() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Compact Header (Fixed Top) */}
-      <header className="h-16 bg-white border-b flex items-center justify-between px-4 fixed top-0 w-full z-10">
+      <header className="h-24 pt-8 bg-white border-b flex items-center justify-between px-4 fixed top-0 w-full z-10">
         <img 
           src="/contramind-horizontal-transparent.svg" 
           alt="ContraMind AI" 
-          className="h-8 w-auto"
+          className="h-8 w-auto max-w-[200px]"
         />
         <button
           onClick={handleEndChatSession}
@@ -99,14 +99,14 @@ export default function Chat() {
       </header>
 
       {/* Disclaimer Strip (Fixed below Header) */}
-      <div className="h-8 bg-yellow-50 flex items-center justify-center border-b fixed top-16 w-full z-10">
+      <div className="h-8 bg-yellow-50 flex items-center justify-center border-b fixed top-24 w-full z-10">
         <p className="text-xs text-yellow-800 font-medium">
           ⚠️ POC Version - AI Output is NOT Legal Advice
         </p>
       </div>
 
       {/* Chat Area (Scrollable Middle) */}
-      <div className="pt-28 pb-24 px-4 min-h-screen">
+      <div className="pt-36 pb-24 px-4 min-h-screen">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 14rem)' }}>
             <div className="text-center max-w-md">
