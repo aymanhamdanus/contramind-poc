@@ -117,5 +117,11 @@
 - [x] Fix logo sizing to h-12 md:h-16 w-auto mx-auto mb-8
 - [x] Create compact centered layout (no scrolling on standard screens)
 - [x] Ensure legal disclaimers remain visible
+- [x] Deploy to Vercel
+- [x] Push to GitHub
+
+## Logo Replacement (Compact Version)
+- [x] Replace old logo with compact version (220px width)
+- [x] Build project successfully
 - [ ] Deploy to Vercel
 - [ ] Push to GitHub
