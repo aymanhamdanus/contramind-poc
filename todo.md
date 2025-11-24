@@ -130,5 +130,5 @@
 - [x] Delete old SVG file from project
 - [x] Upload user's new logo file
 - [x] Build and test
-- [ ] Deploy to Vercel
-- [ ] Push to GitHub
+- [x] Push to GitHub
+- [ ] Deploy to Vercel (requires user authentication)
