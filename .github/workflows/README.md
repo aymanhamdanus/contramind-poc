@@ -12,11 +12,10 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 
 **Features:**
 - Tests on multiple Node.js versions (18.x, 20.x)
-- Runs linter (`npm run lint`)
 - Builds the application (`npm run build`)
 - Uploads build artifacts for retention
 
-**Note:** The linter step has `continue-on-error: true` since eslint is not currently configured in the project dependencies.
+**Note:** Linting step removed until eslint is properly configured in project dependencies.
 
 ### 2. Vercel Deployment Workflow (`vercel-deploy.yml`)
 
@@ -25,8 +24,8 @@ This directory contains GitHub Actions workflows for automating CI/CD processes.
 - Pull requests (preview deployment)
 
 **Features:**
-- Automatically deploys to Vercel
-- Production deployment for `main` branch
+- Separate jobs for production and preview deployments
+- Production deployment for `main` branch pushes (with `--prod` flag)
 - Preview deployments for pull requests
 - Builds the application before deployment
 
