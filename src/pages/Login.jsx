@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useLocation } from 'wouter'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
+  const [emailInput, setEmailInput] = useState('')
   const [, setLocation] = useLocation()
 
-  const handleSubmit = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault()
-    if (email.trim()) {
-      sessionStorage.setItem('userEmail', email.trim())
+    if (emailInput.trim()) {
+      sessionStorage.setItem('userEmail', emailInput.trim())
       setLocation('/chat')
     }
   }
@@ -21,7 +21,7 @@ export default function Login() {
           <img 
             src="/contramind-horizontal-transparent.svg" 
             alt="ContraMind AI" 
-            className="h-12 md:h-16 w-auto mx-auto mb-8"
+            className="h-12 md:h-16 max-w-[200px] mx-auto mb-8"
           />
         </div>
       </header>
@@ -45,7 +45,7 @@ export default function Login() {
               Enter your email to start
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
@@ -53,8 +53,8 @@ export default function Login() {
                 <input
                   type="email"
                   id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
                   placeholder="your.email@example.com"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none"
                   required
