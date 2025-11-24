@@ -110,5 +110,12 @@
 - [x] Fix chat area padding (pt-28 for fixed elements)
 - [x] Update message bubble styling (rounded corners, shadows)
 - [x] Fix input area (fixed bottom with proper styling)
-- [ ] Deploy refactored UI to Vercel
+- [x] Deploy refactored UI to Vercel
+- [x] Push to GitHub
+
+## Login Page Compliance Fixes (URGENT)
+- [x] Fix logo sizing to h-12 md:h-16 w-auto mx-auto mb-8
+- [x] Create compact centered layout (no scrolling on standard screens)
+- [x] Ensure legal disclaimers remain visible
+- [ ] Deploy to Vercel
 - [ ] Push to GitHub
