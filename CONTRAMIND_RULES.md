@@ -1,109 +1,61 @@
 # CONTRAMIND POC - MASTER RULES
+**Version:** 1.6 (Finalized Strategy)
 
-## 1. TECH STACK
-- **Frontend:** React (Vite)
-- **Backend:** Vercel Serverless Functions (when needed)
-- **Database:** Supabase (Free Tier)
-- **Styling:** Tailwind CSS
-- **Font:** "Cairo" (Google Fonts) for Arabic, "Inter" for English
-- **Routing:** Wouter (lightweight React router)
+## 1. TECH STACK (STRICT)
+- **Frontend:** React 19 (Vite)
+- **Backend:** Node.js (Express via Vercel Serverless)
+- **Database:** Supabase (Free Tier) - *Do NOT use SQLite*
+- **AI Model:** Google Gemini 3 Pro (via Google AI Studio)
+- **Routing:** Wouter
+- **Styling:** Tailwind CSS 4
+- **Hosting:** Vercel
 
-## 2. FOLDER STRUCTURE (STRICT)
-```
-/root
-  /src
-    /lib                <-- Supabase client & Helpers
-    /components         <-- Reusable UI parts
-    /pages              <-- Page components (Login, Chat)
-    main.jsx            <-- React entry point
-    App.jsx             <-- Routes
-    index.css           <-- Global CSS & Tailwind
-  /public               <-- Static assets
-  index.html            <-- HTML entry (with Google Fonts)
-  package.json          <-- Dependencies
-  tailwind.config.js    <-- Tailwind + Font config
-  postcss.config.js     <-- PostCSS config
-  vite.config.js        <-- Vite config
-  vercel.json           <-- Vercel deployment config
-  CONTRAMIND_RULES.md   <-- THIS FILE (Source of Truth)
-```
-
-## 3. CRITICAL REQUIREMENTS
-- **BILINGUAL:** Interface must auto-detect Arabic and switch to RTL (Right-to-Left)
-- **SAFETY:** Input limit 5,000 chars. "Not Legal Advice" banner always visible
-- **BRANDING:** Use clean legal blue/white colors
-- **NO BLOAT:** Only essential dependencies (React, Vite, Tailwind, Wouter, Supabase)
-- **LEGAL DISCLAIMERS:** Must be visible in both Arabic and English
-
-## 4. DESIGN PRINCIPLES (STRICT BRANDING)
-- **Primary Color:** Deep Navy (#0F172A) - Used for headers, primary buttons, borders.
-- **Secondary Color:** Sky Blue (#38BDF8) - Used for active states, accents.
-- **Background:** White (#FFFFFF) with Slate 50 (#F8FAFC) for surfaces.
+## 2. BRANDING & DESIGN (NON-NEGOTIABLE)
+- **Primary Color:** Deep Navy `#0F172A` (Headers, Buttons, Borders)
+- **Secondary Color:** Sky Blue `#38BDF8` (Accents, Active States)
+- **Background:** White `#FFFFFF` with Slate 50 `#F8FAFC` surfaces
 - **Typography:**
   - **Headings/Logo:** "Space Grotesk" (Google Fonts)
   - **English Body:** "Inter" (Google Fonts)
   - **Arabic Body:** "Cairo" (Google Fonts)
-- **Logo Rules:**
+- **Logo Assets:**
   - File: `/public/contramind-horizontal-transparent.svg`
-  - Sizing: Always constrain height (`h-12` mobile, `h-16` desktop). Never let it fill 100% width.
-- **Layout:** Clean, minimal, focused on chat interface.
-- **Mobile-First:** Responsive design, works on all devices.
+  - **Constraint:** Always apply `h-12 md:h-16 w-auto` to prevent sizing bugs.
 
-## 5. DEPENDENCIES (MINIMAL)
-**Production:**
-- react
-- react-dom
-- wouter (routing)
-- @supabase/supabase-js
+## 3. CRITICAL FEATURES
+- **BILINGUAL NATIVE:**
+  - Auto-detect Arabic input.
+  - Apply `dir="rtl"` and `font-arabic` classes automatically.
+  - Error messages must be bilingual.
+- **LEGAL SAFETY:**
+  - **Disclaimer:** Fixed top banner "POC Version - Not Legal Advice".
+  - **Input Limits:** Max 5,000 characters per message.
+  - **Consent:** "Quality Monitoring" notice on login.
+- **PERSISTENCE:**
+  - Save chat to `localStorage` (browser) AND Supabase (database).
+  - "Copy to Clipboard" button for export.
 
-**Development:**
-- vite
-- @vitejs/plugin-react
-- tailwindcss
-- postcss
-- autoprefixer
+## 4. FOLDER STRUCTURE
 
-## 6. DEVELOPMENT WORKFLOW
-1. Always check this file before starting any task
-2. Follow folder structure strictly
-3. Keep dependencies minimal
-4. Test bilingual support (Arabic/English) for every feature
-5. Verify mobile responsiveness
+```
+/root
+  /src
+    /components         <-- Reusable UI (Button, Input, ChatBubble)
+    /lib                <-- Supabase client & Utils
+    /pages              <-- Login.jsx, Chat.jsx
+    App.jsx             <-- Wouter Routes
+    index.css           <-- Tailwind Directives
+  /public               <-- contramind-horizontal-transparent.svg
+  CONTRAMIND_RULES.md   <-- THIS FILE
+```
 
-## 7. SECURITY RULES
-- API keys NEVER exposed in client code
-- Input validation: 5,000 character limit
-- Rate limiting: 50 messages per session
-- Sanitize all user inputs
+## 5. DEVELOPMENT RULES
+1. **No Bloat:** Do not install tRPC, Drizzle, or extra UI libraries.
+2. **Mobile First:** All UI must work on iPhone/Android (Responsive).
+3. **Security:** Never expose API keys on the client. Use Vercel Environment Variables.
+4. **Error Handling:** Never show raw code errors. Show user-friendly messages in the correct language.
 
-## 8. CODE STANDARDS
-- Use JSX (not TypeScript) for simplicity
-- Component names: PascalCase
-- File names: PascalCase for components, camelCase for utilities
-- CSS: Tailwind utilities preferred, minimal custom CSS
-- Comments: Explain WHY, not WHAT
-
-## 9. TESTING CHECKLIST
-Before marking any feature complete:
-- [ ] Works in Arabic (RTL layout)
-- [ ] Works in English (LTR layout)
-- [ ] Mobile responsive
-- [ ] Legal disclaimers visible
-- [ ] Input validation working
-- [ ] Error handling implemented
-
-## 10. DEPLOYMENT
-- **Platform:** Vercel
-- **Domain:** poc.contramind.ai (to be configured)
-- **Environment Variables:** Managed via Vercel dashboard
-
-## 11. PHASE-BASED DEVELOPMENT
-- **Phase 1:** Foundation (folder structure, soft login) ← CURRENT
-- **Phase 2:** Chat UI (bilingual support, legal features)
-- **Phase 3:** AI Integration (Gemini API, Supabase logging)
-- **Phase 4:** Testing & Polish
-
----
-
-**Last Updated:** November 24, 2025
-**Current Phase:** Phase 1 - Foundation (Clean Rebuild)
+## 6. PHASE STATUS
+- **Phase 1:** Foundation & Login (COMPLETE)
+- **Phase 2:** Chat UI & Bilingual Logic (NEXT)
+- **Phase 3:** AI Integration (Gemini 3 Pro)
