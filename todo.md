@@ -69,12 +69,18 @@
 - Usage analytics dashboard
 - Multi-model routing
 
-## Phase 1.5: Branding & Design Polish (IN PROGRESS)
-- [ ] Copy logo to /public/ folder
-- [ ] Update tailwind.config.js with new color palette
-- [ ] Add Space Grotesk font to index.html
-- [ ] Update Login page with new branding
-- [ ] Add logo to header/navbar
-- [ ] Test branding locally
-- [ ] Deploy to Vercel
+## Phase 1.5: Branding & Design Polish (COMPLETE)
+- [x] Copy logo to /public/ folder
+- [x] Update tailwind.config.js with new color palette
+- [x] Add Space Grotesk font to index.html
+- [x] Update Login page with new branding
+- [x] Add logo to header/navbar
+- [x] Test branding locally
+- [x] Deploy to Vercel
+- [x] Push to GitHub
+
+## Bug Fixes & Updates
+- [x] Fix logo sizing in Login.jsx (responsive: h-12 mobile, h-16 desktop)
+- [x] Update CONTRAMIND_RULES.md Section 4 with finalized branding
+- [ ] Deploy fixes to Vercel
 - [ ] Push to GitHub

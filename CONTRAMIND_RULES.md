@@ -35,11 +35,19 @@
 - **NO BLOAT:** Only essential dependencies (React, Vite, Tailwind, Wouter, Supabase)
 - **LEGAL DISCLAIMERS:** Must be visible in both Arabic and English
 
-## 4. DESIGN PRINCIPLES
-- **Colors:** Professional legal blue (#1E40AF) and white (#FFFFFF)
-- **Typography:** Cairo for Arabic (professional legal look), Inter for English
-- **Layout:** Clean, minimal, focused on chat interface
-- **Mobile-First:** Responsive design, works on all devices
+## 4. DESIGN PRINCIPLES (STRICT BRANDING)
+- **Primary Color:** Deep Navy (#0F172A) - Used for headers, primary buttons, borders.
+- **Secondary Color:** Sky Blue (#38BDF8) - Used for active states, accents.
+- **Background:** White (#FFFFFF) with Slate 50 (#F8FAFC) for surfaces.
+- **Typography:**
+  - **Headings/Logo:** "Space Grotesk" (Google Fonts)
+  - **English Body:** "Inter" (Google Fonts)
+  - **Arabic Body:** "Cairo" (Google Fonts)
+- **Logo Rules:**
+  - File: `/public/contramind-horizontal-transparent.svg`
+  - Sizing: Always constrain height (`h-12` mobile, `h-16` desktop). Never let it fill 100% width.
+- **Layout:** Clean, minimal, focused on chat interface.
+- **Mobile-First:** Responsive design, works on all devices.
 
 ## 5. DEPENDENCIES (MINIMAL)
 **Production:**
