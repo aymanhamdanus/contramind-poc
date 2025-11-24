@@ -21,7 +21,7 @@ export default function Login() {
           <img 
             src="/contramind-horizontal-transparent.svg" 
             alt="ContraMind AI" 
-            className="h-12 md:h-16 w-auto mx-auto mb-8"
+            className="h-12 md:h-16 max-w-[200px] mx-auto mb-8"
           />
         </div>
       </header>
