@@ -123,5 +123,12 @@
 ## Logo Replacement (Compact Version)
 - [x] Replace old logo with compact version (220px width)
 - [x] Build project successfully
+- [x] Deploy to Vercel
+- [x] Push to GitHub
+
+## Logo Fix (User's New File)
+- [x] Delete old SVG file from project
+- [x] Upload user's new logo file
+- [x] Build and test
 - [ ] Deploy to Vercel
 - [ ] Push to GitHub
