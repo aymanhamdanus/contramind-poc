@@ -5,12 +5,12 @@ import { Send } from 'lucide-react'
 export default function Chat() {
   const [, setLocation] = useLocation()
   const [messages, setMessages] = useState([])
-  const [inputValue, setInputValue] = useState('')
+  const [messageInput, setMessageInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
 
   // Arabic detection function (exact specification)
-  const isArabic = (text) => {
+  const containsArabicCharacters = (text) => {
     const arabicPattern = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/
     return arabicPattern.test(text)
   }
@@ -29,52 +29,52 @@ export default function Chat() {
   }, [messages])
 
   // Handle send message
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return
+  const handleSendMessage = async () => {
+    if (!messageInput.trim() || isLoading) return
 
     // Enforce 5,000 character limit
-    if (inputValue.length > 5000) {
+    if (messageInput.length > 5000) {
       alert('Message too long. Maximum 5,000 characters allowed.')
       return
     }
 
-    const userMessage = {
+    const newUserMessage = {
       id: Date.now(),
       role: 'user',
-      content: inputValue.trim(),
+      content: messageInput.trim(),
       timestamp: new Date(),
-      isArabic: isArabic(inputValue.trim())
+      isArabic: containsArabicCharacters(messageInput.trim())
     }
 
     // Add user message
-    setMessages(prev => [...prev, userMessage])
-    setInputValue('')
+    setMessages(prev => [...prev, newUserMessage])
+    setMessageInput('')
     setIsLoading(true)
 
     // Simulate AI thinking (1.5 seconds)
     setTimeout(() => {
-      const aiMessage = {
+      const aiResponseMessage = {
         id: Date.now() + 1,
         role: 'assistant',
         content: 'This is a test response. [هذا رد تجريبي].',
         timestamp: new Date(),
         isArabic: false
       }
-      setMessages(prev => [...prev, aiMessage])
+      setMessages(prev => [...prev, aiResponseMessage])
       setIsLoading(false)
     }, 1500)
   }
 
   // Handle Enter key (Shift+Enter for new line)
-  const handleKeyDown = (e) => {
+  const handleMessageKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSend()
+      handleSendMessage()
     }
   }
 
   // Handle end session
-  const handleEndSession = () => {
+  const handleEndChatSession = () => {
     sessionStorage.removeItem('userEmail')
     setLocation('/')
   }
@@ -91,7 +91,7 @@ export default function Chat() {
           className="h-8 w-auto"
         />
         <button
-          onClick={handleEndSession}
+          onClick={handleEndChatSession}
           className="text-sm text-red-600 hover:text-red-700 font-medium"
         >
           End Session
@@ -169,9 +169,9 @@ export default function Chat() {
         <div className="max-w-3xl mx-auto">
           <div className="flex gap-3 items-end">
             <textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+              onKeyDown={handleMessageKeyDown}
               placeholder="Type your legal question... (English or Arabic)"
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent outline-none resize-none"
               rows={1}
@@ -182,8 +182,8 @@ export default function Chat() {
               disabled={isLoading}
             />
             <button
-              onClick={handleSend}
-              disabled={!inputValue.trim() || isLoading}
+              onClick={handleSendMessage}
+              disabled={!messageInput.trim() || isLoading}
               className="bg-primary hover:bg-opacity-90 text-white p-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />
@@ -193,8 +193,8 @@ export default function Chat() {
           {/* Character counter */}
           <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
             <span>Enter to send • Shift+Enter for new line</span>
-            <span className={inputValue.length > 4500 ? 'text-yellow-600 font-medium' : ''}>
-              {inputValue.length} / 5,000
+            <span className={messageInput.length > 4500 ? 'text-yellow-600 font-medium' : ''}>
+              {messageInput.length} / 5,000
             </span>
           </div>
         </div>
