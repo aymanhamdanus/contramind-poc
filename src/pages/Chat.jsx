@@ -30,8 +30,11 @@ const Chat = () => {
   const handleSendMessage = async () => {
     if (!messageInput.trim()) return;
 
-    // 1. Add User Message to UI
-    const userMessage = { role: 'user', content: messageInput };
+    // 1. Capture the current message before clearing
+    const currentMessage = messageInput;
+    
+    // 2. Add User Message to UI
+    const userMessage = { role: 'user', content: currentMessage };
     setMessages((prev) => [...prev, userMessage]);
     setMessageInput('');
     setIsLoading(true);
@@ -48,26 +51,26 @@ const Chat = () => {
     }
 
     try {
-      // 2. Setup the AI Client
+      // 3. Setup the AI Client
       const ai = new GoogleGenAI({ apiKey });
 
-      // 3. Prepare History
+      // 4. Prepare History
       const history = messages.map(msg => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }],
       }));
 
-      // 4. Call the Real Brain
+      // 5. Call the Real Brain
       const { response } = await ai.models.generateContent({
         model: 'gemini-1.5-pro',
         config: { systemInstruction: SYSTEM_INSTRUCTION },
         contents: [
           ...history, 
-          { role: 'user', parts: [{ text: messageInput }] }
+          { role: 'user', parts: [{ text: currentMessage }] }
         ],
       });
 
-      // 5. Show the Answer
+      // 6. Show the Answer
       const aiText = response.text();
       setMessages((prev) => [...prev, { role: 'assistant', content: aiText }]);
 
