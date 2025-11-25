@@ -36,9 +36,20 @@ const Chat = () => {
     setMessageInput('');
     setIsLoading(true);
 
+    // Validate API Key
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      setMessages((prev) => [...prev, { 
+        role: 'assistant', 
+        content: "⚠️ Configuration Error: API Key is missing. Please check your .env.local file." 
+      }]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       // 2. Setup the AI Client
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
 
       // 3. Prepare History
       const history = messages.map(msg => ({
@@ -62,7 +73,20 @@ const Chat = () => {
 
     } catch (error) {
       console.error("Gemini Error:", error);
-      setMessages((prev) => [...prev, { role: 'assistant', content: "⚠️ Sorry, I had trouble connecting to the AI. Please check your API Key." }]);
+      
+      let errorMessage = "⚠️ Sorry, I had trouble connecting to the AI. Please try again.";
+      
+      if (error.message?.includes('API_KEY') || error.message?.includes('apiKey') || error.message?.includes('401')) {
+        errorMessage = "⚠️ Invalid API Key. Please check your configuration.";
+      } else if (error.message?.includes('RATE_LIMIT') || error.message?.includes('429')) {
+        errorMessage = "⚠️ Rate limit exceeded. Please wait a moment and try again.";
+      } else if (error.message?.includes('network') || error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
+        errorMessage = "⚠️ Network error. Please check your internet connection.";
+      } else if (error.message?.includes('SAFETY') || error.message?.includes('blocked')) {
+        errorMessage = "⚠️ The response was blocked due to safety filters. Please rephrase your question.";
+      }
+      
+      setMessages((prev) => [...prev, { role: 'assistant', content: errorMessage }]);
     } finally {
       setIsLoading(false);
     }
