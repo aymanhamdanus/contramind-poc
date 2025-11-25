@@ -30,39 +30,66 @@ const Chat = () => {
   const handleSendMessage = async () => {
     if (!messageInput.trim()) return;
 
-    // 1. Add User Message to UI
-    const userMessage = { role: 'user', content: messageInput };
+    // 1. Capture the current message before clearing
+    const currentMessage = messageInput;
+    
+    // 2. Add User Message to UI
+    const userMessage = { role: 'user', content: currentMessage };
     setMessages((prev) => [...prev, userMessage]);
     setMessageInput('');
     setIsLoading(true);
 
-    try {
-      // 2. Setup the AI Client
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+    // Validate API Key
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      setMessages((prev) => [...prev, { 
+        role: 'assistant', 
+        content: "⚠️ Configuration Error: API Key is missing. Please check your .env.local file." 
+      }]);
+      setIsLoading(false);
+      return;
+    }
 
-      // 3. Prepare History
+    try {
+      // 3. Setup the AI Client
+      const ai = new GoogleGenAI({ apiKey });
+
+      // 4. Prepare History
       const history = messages.map(msg => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }],
       }));
 
-      // 4. Call the Real Brain
+      // 5. Call the Real Brain
       const { response } = await ai.models.generateContent({
         model: 'gemini-1.5-pro',
         config: { systemInstruction: SYSTEM_INSTRUCTION },
         contents: [
           ...history, 
-          { role: 'user', parts: [{ text: messageInput }] }
+          { role: 'user', parts: [{ text: currentMessage }] }
         ],
       });
 
-      // 5. Show the Answer
+      // 6. Show the Answer
       const aiText = response.text();
       setMessages((prev) => [...prev, { role: 'assistant', content: aiText }]);
 
     } catch (error) {
       console.error("Gemini Error:", error);
-      setMessages((prev) => [...prev, { role: 'assistant', content: "⚠️ Sorry, I had trouble connecting to the AI. Please check your API Key." }]);
+      
+      let errorMessage = "⚠️ Sorry, I had trouble connecting to the AI. Please try again.";
+      
+      if (error.message?.includes('API_KEY') || error.message?.includes('apiKey') || error.message?.includes('401')) {
+        errorMessage = "⚠️ Invalid API Key. Please check your configuration.";
+      } else if (error.message?.includes('RATE_LIMIT') || error.message?.includes('429')) {
+        errorMessage = "⚠️ Rate limit exceeded. Please wait a moment and try again.";
+      } else if (error.message?.includes('network') || error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
+        errorMessage = "⚠️ Network error. Please check your internet connection.";
+      } else if (error.message?.includes('SAFETY') || error.message?.includes('blocked')) {
+        errorMessage = "⚠️ The response was blocked due to safety filters. Please rephrase your question.";
+      }
+      
+      setMessages((prev) => [...prev, { role: 'assistant', content: errorMessage }]);
     } finally {
       setIsLoading(false);
     }
