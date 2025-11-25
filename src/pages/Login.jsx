@@ -16,7 +16,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Compact Header with Logo */}
-      <header className="w-full py-6 px-4 border-b border-gray-200">
+      <header className="w-full pt-8 py-6 px-4 border-b border-gray-200">
         <div className="container mx-auto max-w-md">
           <img 
             src="/contramind-horizontal-transparent.svg" 
